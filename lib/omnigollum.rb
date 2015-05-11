@@ -50,6 +50,8 @@ module Omnigollum
 
     # If admin email list is empty, all authenticated users are authorized
     def admin_user_authed?
+      return false unless user_authed?
+
       options = settings.send(:omnigollum)
 
       if options[:admin_emails].nil? || options[:admin_emails].empty?
@@ -65,7 +67,7 @@ module Omnigollum
 
     def admin_auth
       options = settings.send(:omnigollum)
-      
+
       redirect options[:route_prefix]
     end
 
