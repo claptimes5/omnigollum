@@ -48,6 +48,22 @@ module Omnigollum
       show_login
     end
 
+    # If admin email list is empty, all authenticated users are authorized
+    def admin_user_authed?
+      if options[:admin_emails].length > 0
+        if options[:admin_emails].includes? get_user.email
+          return true
+        end
+      else
+        return true
+      end
+      return false
+    end
+
+    def admin_auth
+      redirect options[:route_prefix]
+    end
+
     def kick_back
       redirect !request.referrer.nil? && request.referrer !~ /#{Regexp.escape(settings.send(:omnigollum)[:route_prefix])}\/.*/ ?
         request.referrer:
@@ -136,6 +152,8 @@ module Omnigollum
         '/delete/*',
         '/delete'],
 
+      :admin_routes => [],
+      :admin_emails => [],
       :route_prefix => '/__omnigollum__',
       :dummy_auth   => true,
       :providers    => Proc.new { provider :github, '', '' },
@@ -309,6 +327,9 @@ module Omnigollum
 
       # Pre-empt protected routes
       options[:protected_routes].each {|route| app.before(route) {user_auth unless user_authed?}}
+
+      # Preempt admin routes
+      options[:admin_routes].each {|route| app.before(route) {admin_auth unless admin_user_authed?}}
 
       # Write the actual config back to the app instance
       app.set(:omnigollum, options)

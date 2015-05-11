@@ -61,6 +61,15 @@ options = {
   :dummy_auth => false,
   # Make the entire wiki private
   :protected_routes => ['/*'],
+  # Only admins have access to delete
+  :admin_routes => [
+            '/revert/*',
+            '/revert',
+            '/delete/*',
+            '/delete'],
+  # Valid Admin emails - if admin email list is empty, all authenticated users are authorized
+  admin_emails => [
+    'email@example.com'],
   # Specify committer name as just the user name
   :author_format => Proc.new { |user| user.name },
   # Specify committer e-mail as just the user e-mail
