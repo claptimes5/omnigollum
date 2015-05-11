@@ -50,14 +50,15 @@ module Omnigollum
 
     # If admin email list is empty, all authenticated users are authorized
     def admin_user_authed?
-      if options[:admin_emails].length > 0
+      if options[:admin_emails].nil? || options[:admin_emails].empty?
+        return true
+      else
         if options[:admin_emails].includes? get_user.email
           return true
+        else
+          return false
         end
-      else
-        return true
       end
-      return false
     end
 
     def admin_auth
