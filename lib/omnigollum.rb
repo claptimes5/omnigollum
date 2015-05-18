@@ -57,7 +57,7 @@ module Omnigollum
       if options[:admin_emails].nil? || options[:admin_emails].empty?
         return true
       else
-        if options[:admin_emails].includes? get_user.email
+        if options[:admin_emails].include? get_user.email
           return true
         else
           return false
