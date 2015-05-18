@@ -68,7 +68,7 @@ module Omnigollum
     def admin_auth
       options = settings.send(:omnigollum)
 
-      redirect options[:route_prefix]
+      redirect "#{(request.script_name || '')}#{options[:admin_redirect_path]}"
     end
 
     def kick_back

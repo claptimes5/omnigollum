@@ -70,6 +70,9 @@ options = {
   # Valid Admin emails - if admin email list is empty, all authenticated users are authorized
   admin_emails => [
     'email@example.com'],
+  # Optionally redirect user to specific page if they don't have admin access.
+  # By default, this path is the root wiki path
+  admin_redirect_path => '/How-to-request-admin'
   # Specify committer name as just the user name
   :author_format => Proc.new { |user| user.name },
   # Specify committer e-mail as just the user e-mail
