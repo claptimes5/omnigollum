@@ -2,6 +2,7 @@ require 'cgi'
 require 'omniauth'
 require 'mustache/sinatra'
 require 'sinatra/base'
+require 'addressable/uri'
 
 module Omnigollum
   module Views; class Layout < Mustache; end; end
