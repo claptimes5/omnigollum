@@ -112,8 +112,11 @@ module Omnigollum
           origin = '/'
         end
 
+        params = Addressable::URI.new
+        params.query_values = request.params.delete('origin')
+
         redirect (request.script_name || '') + options[:route_prefix] + '/auth/' + options[:provider_names].first.to_s + "?origin=" +
-           CGI.escape(origin)
+           CGI.escape(origin) + params.query
       else
          auth_config
          require options[:path_views] + '/login'
