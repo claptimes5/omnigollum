@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.add_dependency('gollum')
   s.add_dependency('omniauth')
   s.add_dependency('mustache', '>= 0.99.5')
+  s.add_dependency 'addressable', '>= 0.10.0'
   
   s.description       = <<desc
 Omnigollum adds support for OmniAuth in Gollum. It executes an OmniAuth::Builder proc/block to figure out which providers you've configured, then passes it on to omniauth to create the actual omniauth configuration.
