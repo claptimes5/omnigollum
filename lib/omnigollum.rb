@@ -113,10 +113,10 @@ module Omnigollum
         end
 
         params = Addressable::URI.new
-        params.query_values = request.params.delete('origin')
+        params.query_values = request.params.reject{|key, _ | key == 'origin'}
 
         redirect (request.script_name || '') + options[:route_prefix] + '/auth/' + options[:provider_names].first.to_s + "?origin=" +
-           CGI.escape(origin) + params.query
+           CGI.escape(origin) + "&#{params.query}"
       else
          auth_config
          require options[:path_views] + '/login'
@@ -310,8 +310,10 @@ module Omnigollum
               :name => options[:author_format].call(user),
               :email => options[:author_email].call(user)
             }
+            params = Addressable::URI.new
+            params.query_values = request.env['omniauth.params'].reject{|key, _ | key == 'origin' }
 
-            redirect request.env['omniauth.origin']
+            redirect request.env['omniauth.origin'] + "?#{params.query}"
           elsif !user_authed?
             @title   = 'Authentication failed'
             @subtext = 'Omniauth experienced an error processing your request'
